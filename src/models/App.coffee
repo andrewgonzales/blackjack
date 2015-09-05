@@ -19,10 +19,6 @@ class window.App extends Backbone.Model
       @removeOldHands(@get('dealerHand'))
       scores['busts'] +=1
       @scoreKeeper()
-    
-   
-    # @on 'newStuff', -> console.log @get('playerHand')
-
 
     @get('playerHand').on 'stand', => @dealerPlay()
 
@@ -52,22 +48,11 @@ class window.App extends Backbone.Model
 
 
   dealerPlay: ->  
-    debugger;
     until @get('dealerHand').scores()[0] >= 17
       @get('dealerHand').hit()
       console.log @get('dealerHand').scores()[0]
     @scoreKeeper()
-    # @trigger 'newStuff', @
-
-    # if @get('playerHand').scores()[0] is @get('dealerHand').scores()[0]
-    #   alert 'Push'
-    # else if @get('playerHand').scores()[0] < @get('dealerHand').scores()[0] < 22 
-    #   alert 'Dealer wins'
-    # else 
-    #   alert 'You win!'
-    # @removeOldHands(@get('playerHand'))
-    # @removeOldHands(@get('dealerHand'))
-
+  
 
 
   scoreKeeper: ->
@@ -81,6 +66,7 @@ class window.App extends Backbone.Model
       alert 'You win!'
       scores['player'] +=1
 
-    # console.log scores['player']  
     @removeOldHands(@get('playerHand'))
     @removeOldHands(@get('dealerHand'))
+
+

@@ -65,7 +65,6 @@ window.App = (function(superClass) {
   };
 
   App.prototype.dealerPlay = function() {
-    debugger;
     while (!(this.get('dealerHand').scores()[0] >= 17)) {
       this.get('dealerHand').hit();
       console.log(this.get('dealerHand').scores()[0]);

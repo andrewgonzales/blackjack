@@ -9,7 +9,7 @@ window.AppView = (function(superClass) {
     return AppView.__super__.constructor.apply(this, arguments);
   }
 
-  AppView.prototype.template = _.template('<button class="hit-button">Hit</button> <button class="stand-button">Stand</button> <div class="player-hand-container"></div> <div class="dealer-hand-container"></div>');
+  AppView.prototype.template = _.template('<div class="scoreRecord">Player: <%= scores["player"]%>  Dealer: <%= scores["dealer"]%>  Pushes: <%= scores["pushes"]%> </div> <div class="button-div"> <button class="hit-button">Hit</button> <button class="stand-button">Stand</button> </div> <div class="dealer-hand-container"></div> <div class="player-hand-container"></div>');
 
   AppView.prototype.events = {
     'click .hit-button': function() {
@@ -28,7 +28,7 @@ window.AppView = (function(superClass) {
 
   AppView.prototype.render = function() {
     this.$el.children().detach();
-    this.$el.html(this.template());
+    this.$el.html(this.template(this.model.attributes));
     this.$('.player-hand-container').html(new HandView({
       collection: this.model.get('playerHand')
     }).el);

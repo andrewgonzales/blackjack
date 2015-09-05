@@ -2,11 +2,9 @@ class window.Hand extends Backbone.Collection
   model: Card
 
   initialize: (array, @deck, @isDealer) ->
-    # @on 'roundOver', -> console.log @last()
 
   hit: ->
     @add(@deck.pop())
-    # console.log @scores()[0]
     if @scores()[0] > 21 then @bust()
     @last()
 
@@ -30,8 +28,6 @@ class window.Hand extends Backbone.Collection
 
   bust: -> 
     if not @isDealer
-      # alert 'Bust! Dealer wins'
       @trigger 'roundOver', @
     
-
-  
+    

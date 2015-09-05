@@ -11,7 +11,7 @@ window.CardView = (function(superClass) {
 
   CardView.prototype.className = 'card';
 
-  CardView.prototype.template = _.template('<%= rankName %> of <%= suitName %>');
+  CardView.prototype.template = _.template('<img src="img/cards/<%= rankName %>-<%= suitName %>.png">');
 
   CardView.prototype.initialize = function() {
     return this.render();

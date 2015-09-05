@@ -1,4 +1,18 @@
+body {
+  background-image: url('../img/tablecopy.png');
+  background-repeat: no-repeat;
+}
+
+.scoreRecord {
+  display: inline-block;
+  padding: 15px;
+  margin-top: 10%;
+  font-family: 'Sans-serif';
+  font-size: 30;
+}
+
 .card {
+  display: inline-block;
   float: left;
   border: solid 1px black;
   width: 100px;
@@ -7,10 +21,33 @@
   margin-right: 20px;
 }
 
-.covered {
+img {
+  height: 140px;
+  width: 100px;
+}
+
+.covered > img {
   background-color: black;
+  background-image: url('../img/card-back.png') !important;
+  background-size: 100px 140px;
+
 }
 
 .hand {
+  display: block;
+  margin-top: 10px;
+  margin-left: 45%;
   overflow: auto;
+}
+
+button {
+  display: inline-block;
+  font-size: 20;
+  border-radius: 8px;
+  margin-left: 15px;
+}
+
+h2 {
+  font-family: 'Sans-serif';
+  font-size: 30; 
 }
