@@ -6,53 +6,43 @@ class window.App extends Backbone.Model
     @set 'playerHand', deck.dealPlayer()
     @set 'dealerHand', deck.dealDealer()
 
+    @get('playerHand').on 'roundOver', => 
+      @removeOldHands(@get('playerHand'))
+      @removeOldHands(@get('dealerHand'))
     
-    @get('playerHand').on 'roundOver', => @dealNewHand()
-      # console.log 'come on'
-      # @set 'playerHand', deck.dealPlayer()
-      # @set 'dealerHand', deck.dealDealer()
-      # return
-      # @resetHands()
-      # @dealNewHand()
-      # return
    
-    # @on 'newStuff', => 
-    #   console.log 'heard new stuff'
-    #   @resetHands()
-    #   return
+    # @on 'newStuff', -> console.log @get('playerHand')
+
 
     @get('playerHand').on 'stand', => @dealerPlay()
-      # @dealerPlay()
-      # @resetHands()
-      # return
 
-    @get('deck').on 'outOfCards', => initialize()
+    @get('deck').on 'outOfCards', => initialize
 
 
-  # resetHands: ->
-  #   console.log 'resetting'
-  #   @get('playerHand').reset()
-  #   @get('dealerHand').reset()
-  #   @dealNewHand()
 
+  removeOldHands: (hand)->
 
-  dealNewHand: ->
-    console.log 'next round******************'
-    # @get('playerHand').on 'roundOver', -> console.log 'round is over'
-    # console.log @get 'deck'
-    # until @get('playerHand').length is 0
-    #   @get('playerHand').remove(@get('playerHand').length-1)
+    until cardsInHand < 1
+      cardsInHand = hand.length
+      hand.pop()
+    @dealNewHands(hand)
+  
 
-    @set 'playerHand', @get('deck').dealPlayer()
-    @set 'dealerHand', @get('deck').dealDealer()
+    @trigger 'newStuff', @
+
+  dealNewHands: (hand)->
+    
+    if hand.isDealer
+      hand.hit().flip()
+    else
+      hand.hit()
+    hand.hit()
 
     @trigger 'newStuff', @
 
 
   dealerPlay: ->  
-    console.log 'inside dealerPlay ^^^^^^^^^^^^^^^^' 
     until @get('dealerHand').scores()[0] >= 17
-      # @get('dealerHand').last().flip()
       @get('dealerHand').hit()
   
 
@@ -60,14 +50,10 @@ class window.App extends Backbone.Model
       alert 'Push'
     else if @get('playerHand').scores()[0] < @get('dealerHand').scores()[0] < 22 
       alert 'Dealer wins'
-      console.log 'dealer wins'
     else 
       alert 'You win!'
-      console.log 'you win'
-
-
-    # @set 'playerHand', @get('deck').dealPlayer()
-    # @set 'dealerHand', @get('deck').dealDealer()
+    @removeOldHands(@get('playerHand'))
+    @removeOldHands(@get('dealerHand'))
 
     @trigger 'newStuff', @
 

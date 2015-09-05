@@ -27,12 +27,10 @@ window.Deck = (function(superClass) {
   };
 
   Deck.prototype.dealPlayer = function() {
-    console.log('dealing to player');
     return new Hand([this.pop(), this.pop()], this);
   };
 
   Deck.prototype.dealDealer = function() {
-    console.log('dealing to dealer');
     return new Hand([this.pop().flip(), this.pop()], this, true);
   };
 

@@ -16,7 +16,8 @@ window.App = (function(superClass) {
     this.set('dealerHand', deck.dealDealer());
     this.get('playerHand').on('roundOver', (function(_this) {
       return function() {
-        return _this.dealNewHand();
+        _this.removeOldHands(_this.get('playerHand'));
+        return _this.removeOldHands(_this.get('dealerHand'));
       };
     })(this));
     this.get('playerHand').on('stand', (function(_this) {
@@ -26,21 +27,33 @@ window.App = (function(superClass) {
     })(this));
     return this.get('deck').on('outOfCards', (function(_this) {
       return function() {
-        return initialize();
+        return initialize;
       };
     })(this));
   };
 
-  App.prototype.dealNewHand = function() {
-    console.log('next round******************');
-    this.set('playerHand', this.get('deck').dealPlayer());
-    this.set('dealerHand', this.get('deck').dealDealer());
+  App.prototype.removeOldHands = function(hand) {
+    var cardsInHand;
+    while (!(cardsInHand < 1)) {
+      cardsInHand = hand.length;
+      hand.pop();
+    }
+    this.dealNewHands(hand);
+    return this.trigger('newStuff', this);
+  };
+
+  App.prototype.dealNewHands = function(hand) {
+    if (hand.isDealer) {
+      hand.hit().flip();
+    } else {
+      hand.hit();
+    }
+    hand.hit();
     return this.trigger('newStuff', this);
   };
 
   App.prototype.dealerPlay = function() {
     var ref;
-    console.log('inside dealerPlay ^^^^^^^^^^^^^^^^');
     while (!(this.get('dealerHand').scores()[0] >= 17)) {
       this.get('dealerHand').hit();
     }
@@ -48,11 +61,11 @@ window.App = (function(superClass) {
       alert('Push');
     } else if ((this.get('playerHand').scores()[0] < (ref = this.get('dealerHand').scores()[0]) && ref < 22)) {
       alert('Dealer wins');
-      console.log('dealer wins');
     } else {
       alert('You win!');
-      console.log('you win');
     }
+    this.removeOldHands(this.get('playerHand'));
+    this.removeOldHands(this.get('dealerHand'));
     return this.trigger('newStuff', this);
   };
 

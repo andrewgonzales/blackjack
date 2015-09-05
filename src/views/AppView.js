@@ -22,6 +22,7 @@ window.AppView = (function(superClass) {
 
   AppView.prototype.initialize = function() {
     this.model.on('all', this.render, this);
+    this.model.on('change:[playerHand]', this.render, this);
     return this.render();
   };
 

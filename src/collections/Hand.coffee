@@ -2,14 +2,11 @@ class window.Hand extends Backbone.Collection
   model: Card
 
   initialize: (array, @deck, @isDealer) ->
-
-    # @on 'roundOver', => @newRound()
+    # @on 'roundOver', -> console.log @last()
 
   hit: ->
     @add(@deck.pop())
-    console.log @
-    console.log @scores()[0]
-    # debugger;
+    # console.log @scores()[0]
     if @scores()[0] > 21 then @bust()
     @last()
 
@@ -28,19 +25,13 @@ class window.Hand extends Backbone.Collection
     # when there is an ace, it offers you two scores - the original score, and score + 10.
     [@minScore(), @minScore() + 10 * @hasAce()]
 
-
   stand: ->
-    console.log 'standing&&&&&&&&&&&&&&&&&'
     @trigger 'stand', @
 
   bust: -> 
-    @trigger 'roundOver', @
-    # if not @isDealer
-    alert 'Bust! Dealer wins'
-    console.log 'bust'
-    # @reset()
-   
+    if not @isDealer
+      alert 'Bust! Dealer wins'
+      @trigger 'roundOver', @
+    
 
-  # newRound: ->
-  #   console.log 'should clear'
-  #   @reset()
+  

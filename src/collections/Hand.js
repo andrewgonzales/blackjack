@@ -18,8 +18,6 @@ window.Hand = (function(superClass) {
 
   Hand.prototype.hit = function() {
     this.add(this.deck.pop());
-    console.log(this);
-    console.log(this.scores()[0]);
     if (this.scores()[0] > 21) {
       this.bust();
     }
@@ -43,14 +41,14 @@ window.Hand = (function(superClass) {
   };
 
   Hand.prototype.stand = function() {
-    console.log('standing&&&&&&&&&&&&&&&&&');
     return this.trigger('stand', this);
   };
 
   Hand.prototype.bust = function() {
-    this.trigger('roundOver', this);
-    alert('Bust! Dealer wins');
-    return console.log('bust');
+    if (!this.isDealer) {
+      alert('Bust! Dealer wins');
+      return this.trigger('roundOver', this);
+    }
   };
 
   return Hand;
