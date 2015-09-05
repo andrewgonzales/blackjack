@@ -46,7 +46,6 @@ window.Hand = (function(superClass) {
 
   Hand.prototype.bust = function() {
     if (!this.isDealer) {
-      alert('Bust! Dealer wins');
       return this.trigger('roundOver', this);
     }
   };

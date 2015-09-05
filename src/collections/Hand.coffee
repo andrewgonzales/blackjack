@@ -30,7 +30,7 @@ class window.Hand extends Backbone.Collection
 
   bust: -> 
     if not @isDealer
-      alert 'Bust! Dealer wins'
+      # alert 'Bust! Dealer wins'
       @trigger 'roundOver', @
     
 

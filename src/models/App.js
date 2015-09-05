@@ -3,21 +3,33 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
   hasProp = {}.hasOwnProperty;
 
 window.App = (function(superClass) {
+  var scores;
+
   extend(App, superClass);
 
   function App() {
     return App.__super__.constructor.apply(this, arguments);
   }
 
+  scores = {
+    player: 0,
+    dealer: 0,
+    pushes: 0,
+    busts: 0
+  };
+
   App.prototype.initialize = function() {
     var deck;
     this.set('deck', deck = new Deck());
     this.set('playerHand', deck.dealPlayer());
     this.set('dealerHand', deck.dealDealer());
+    this.set('scores', scores);
     this.get('playerHand').on('roundOver', (function(_this) {
       return function() {
         _this.removeOldHands(_this.get('playerHand'));
-        return _this.removeOldHands(_this.get('dealerHand'));
+        _this.removeOldHands(_this.get('dealerHand'));
+        scores['busts'] += 1;
+        return _this.scoreKeeper();
       };
     })(this));
     this.get('playerHand').on('stand', (function(_this) {
@@ -53,20 +65,28 @@ window.App = (function(superClass) {
   };
 
   App.prototype.dealerPlay = function() {
-    var ref;
+    debugger;
     while (!(this.get('dealerHand').scores()[0] >= 17)) {
       this.get('dealerHand').hit();
+      console.log(this.get('dealerHand').scores()[0]);
     }
+    return this.scoreKeeper();
+  };
+
+  App.prototype.scoreKeeper = function() {
+    var ref;
     if (this.get('playerHand').scores()[0] === this.get('dealerHand').scores()[0]) {
       alert('Push');
+      scores['pushes'] += 1;
     } else if ((this.get('playerHand').scores()[0] < (ref = this.get('dealerHand').scores()[0]) && ref < 22)) {
       alert('Dealer wins');
+      scores['dealer'] += 1;
     } else {
       alert('You win!');
+      scores['player'] += 1;
     }
     this.removeOldHands(this.get('playerHand'));
-    this.removeOldHands(this.get('dealerHand'));
-    return this.trigger('newStuff', this);
+    return this.removeOldHands(this.get('dealerHand'));
   };
 
   return App;
