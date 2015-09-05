@@ -3,8 +3,14 @@ class window.Hand extends Backbone.Collection
 
   initialize: (array, @deck, @isDealer) ->
 
+    # @on 'roundOver', => @newRound()
+
   hit: ->
     @add(@deck.pop())
+    console.log @
+    console.log @scores()[0]
+    # debugger;
+    if @scores()[0] > 21 then @bust()
     @last()
 
 
@@ -23,3 +29,18 @@ class window.Hand extends Backbone.Collection
     [@minScore(), @minScore() + 10 * @hasAce()]
 
 
+  stand: ->
+    console.log 'standing&&&&&&&&&&&&&&&&&'
+    @trigger 'stand', @
+
+  bust: -> 
+    @trigger 'roundOver', @
+    # if not @isDealer
+    alert 'Bust! Dealer wins'
+    console.log 'bust'
+    # @reset()
+   
+
+  # newRound: ->
+  #   console.log 'should clear'
+  #   @reset()
